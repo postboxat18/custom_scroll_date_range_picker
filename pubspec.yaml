@@ -1,7 +1,7 @@
 name: custom_scroll_date_range_picker
-description: A new Flutter project.
-version: 0.0.1
-homepage:
+description: Custom Scroll Date Range Picker.
+version: 1.0.0
+homepage: https://github.com/postboxat18/custom_scroll_date_range_picker
 
 environment:
   sdk: '>=3.1.1 <4.0.0'
@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  fluttertoast: ^8.2.2
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
