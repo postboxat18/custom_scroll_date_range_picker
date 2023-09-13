@@ -1,6 +1,8 @@
 # Custom Scroll Date Range Picker
 
 Custom Scroll Date Range Picker is a Flutter package that allows users to select a date range using a scrollable interface.
+![image](https://github.com/postboxat18/custom_scroll_date_range_picker/assets/77087523/551b06bd-8c7e-4e56-b76c-f9e85734d086)
+![image](https://github.com/postboxat18/custom_scroll_date_range_picker/assets/77087523/82a2c8e8-1027-4589-8f1c-15489293006f)
 
 ## Video Demo
 
