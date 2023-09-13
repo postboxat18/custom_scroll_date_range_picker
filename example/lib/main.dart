@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:custom_scroll_date_range_picker/custom_scroll_date_range_picker.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -60,7 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     await showDialog(
                       context: context,
                       builder: (context) {
-                        return CustomScr(
+
+                        return CustomSDRP(
                           initialStartDate: initialStartDate,
                           initialEndDate: initialEndDate,
                           initialEndYear: 2050,
