@@ -54,10 +54,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a0bd71b8652d0e7fc56eb600521959399ae41c82
+      resolved-ref: c60ef8fe14eb1af1bee906e6fca671d665c67697
       url: "https://github.com/postboxat18/custom_scroll_date_range_picker.git"
     source: git
-    version: "1.0.0"
+    version: "1.0.2"
   fake_async:
     dependency: transitive
     description:
