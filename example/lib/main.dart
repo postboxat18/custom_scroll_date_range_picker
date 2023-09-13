@@ -1,6 +1,7 @@
+import 'package:custom_scroll_date_range_picker/custom_scroll_date_range_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:custom_scroll_date_range_picker/custom_scroll_date_range_picker.dart';
+
 void main() {
   runApp(const MyApp());
 }
