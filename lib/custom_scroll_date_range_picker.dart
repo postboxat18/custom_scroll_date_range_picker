@@ -112,8 +112,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
       }
     }
 
-    print("Date=>initial=>month=>$month");
-    print("Date=>initial=>year=>$year $syear ${widget.initialStartYear}");
+
 
     selectedSMonthIndex = smonth - 1;
     selectedSDateIndex = sday - 1;
@@ -121,8 +120,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
     endDate = date.day.toInt();
     var sdate = DateTime(syear, month + 1, 0);
     sendDate = sdate.day.toInt();
-    print("Date=>initial=>endDate=>$endDate");
-    print("Date=>selectedIndex=>$selectedYearIndex $selectedSYearIndex");
+
 
     super.initState();
   }
@@ -182,14 +180,9 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                       diameterRatio: 1,
                                       controller: lmonthController,
                                       onSelectedItemChanged: (value) {
-                                        print("ListWheel=>month=>$value");
-                                        print("Date=>month=>month=>$month");
-                                        print("Date=>month=>year=>$year");
-                                        print(
-                                            "Date=>month=>Enter=>$year ${value + 2}");
+
                                         var date = DateTime(year, value + 2, 0);
                                         endDate = date.day.toInt();
-                                        print("Date=>enDate=>$endDate");
                                         setStateDialog(() {
                                           selectedMonthIndex = value;
                                           month = value + 1;
@@ -245,7 +238,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                       physics: const FixedExtentScrollPhysics(),
                                       controller: ldateController,
                                       onSelectedItemChanged: (value) {
-                                        print("ListWheel=>date=>$value");
+
                                         setStateDialog(() {
                                           selectedDateIndex = value;
                                           day = value + 1;
@@ -299,17 +292,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                       physics: const FixedExtentScrollPhysics(),
                                       controller: lyearController,
                                       onSelectedItemChanged: (value) {
-                                        print("ListWheel=>year=>$value");
-                                        print("Date=>year=>month=>$month");
-                                        print("Date=>year=>year=>$year");
-                                        print(
-                                            "Date=>year=>Enter=>${widget.initialStartYear + value} ${month + 1}");
+
                                         var date = DateTime(
                                             widget.initialStartYear + value,
                                             month + 1,
                                             0);
                                         endDate = date.day.toInt();
-                                        print("Date=>enDate=>$endDate");
+
                                         setStateDialog(() {
                                           selectedYearIndex = value;
                                           year =
@@ -381,15 +370,11 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                       diameterRatio: 1,
                                       controller: smonthController,
                                       onSelectedItemChanged: (value) {
-                                        print("ListWheel=>month=>$value");
-                                        print("Date=>month=>month=>$smonth");
-                                        print("Date=>month=>year=>$syear");
-                                        print(
-                                            "Date=>month=>Enter=>$syear ${value + 2}");
+
                                         var date =
                                         DateTime(syear, value + 2, 0);
                                         sendDate = date.day.toInt();
-                                        print("Date=>enDate=>$sendDate");
+
                                         setStateDialog(() {
                                           selectedSMonthIndex = value;
                                           smonth = value + 1;
@@ -445,7 +430,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                       physics: const FixedExtentScrollPhysics(),
                                       controller: sdateController,
                                       onSelectedItemChanged: (value) {
-                                        print("ListWheel=>date=>$value");
+
                                         setStateDialog(() {
                                           selectedSDateIndex = value;
                                           sday = value + 1;
@@ -499,17 +484,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                       physics: const FixedExtentScrollPhysics(),
                                       controller: syearController,
                                       onSelectedItemChanged: (value) {
-                                        print("ListWheel=>year=>$value");
-                                        print("Date=>year=>month=>$smonth");
-                                        print("Date=>year=>year=>$syear");
-                                        print(
-                                            "Date=>year=>Enter=>${widget.initialStartYear + value} ${smonth + 1}");
+
                                         var date = DateTime(
                                             widget.initialStartYear + value,
                                             smonth + 1,
                                             0);
                                         sendDate = date.day.toInt();
-                                        print("Date=>enDate=>$sendDate");
+
                                         setStateDialog(() {
                                           selectedSYearIndex = value;
                                           syear =
@@ -597,12 +578,12 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                       "$day ${monthList[month - 1]} $year");
                                   String Lformat =
                                   DateFormat("dd/MM/yyy").format(ltime);
-                                  print("Date=>OK=>$ltime");
+
                                   DateTime stime = DateFormat("dd MMM yyyy").parse(
                                       "$sday ${monthList[smonth - 1]} $syear");
                                   String Sformat =
                                   DateFormat("dd/MM/yyy").format(stime);
-                                  print("Date=>OK=>$stime");
+
 
                                   if (year > syear) {
                                     toastMessage(
