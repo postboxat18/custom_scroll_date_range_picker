@@ -1,4 +1,5 @@
 library custom_scroll_date_range_picker;
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -12,11 +13,11 @@ class CustomSDRP extends StatefulWidget {
 
   CustomSDRP(
       {super.key,
-        required this.initialStartDate,
-        required this.initialEndDate,
-        required this.initialStartYear,
-        required this.initialEndYear,
-        required this.color});
+      required this.initialStartDate,
+      required this.initialEndDate,
+      required this.initialStartYear,
+      required this.initialEndYear,
+      required this.color});
 
   @override
   State<CustomSDRP> createState() => _CustomSDRPState();
@@ -57,17 +58,17 @@ class _CustomSDRPState extends State<CustomSDRP> {
   late int sendDate;
 
   late FixedExtentScrollController lyearController =
-  FixedExtentScrollController();
+      FixedExtentScrollController();
   late FixedExtentScrollController lmonthController =
-  FixedExtentScrollController();
+      FixedExtentScrollController();
   late FixedExtentScrollController ldateController =
-  FixedExtentScrollController();
+      FixedExtentScrollController();
   late FixedExtentScrollController syearController =
-  FixedExtentScrollController();
+      FixedExtentScrollController();
   late FixedExtentScrollController smonthController =
-  FixedExtentScrollController();
+      FixedExtentScrollController();
   late FixedExtentScrollController sdateController =
-  FixedExtentScrollController();
+      FixedExtentScrollController();
   late int selectedYearIndex = 0;
   late int selectedMonthIndex = 0;
   late int selectedDateIndex = 0;
@@ -112,15 +113,12 @@ class _CustomSDRPState extends State<CustomSDRP> {
       }
     }
 
-
-
     selectedSMonthIndex = smonth - 1;
     selectedSDateIndex = sday - 1;
     var date = DateTime(year, month + 1, 0);
     endDate = date.day.toInt();
     var sdate = DateTime(syear, month + 1, 0);
     sendDate = sdate.day.toInt();
-
 
     super.initState();
   }
@@ -150,400 +148,396 @@ class _CustomSDRPState extends State<CustomSDRP> {
           return openEditor();
         } else {
           return AlertDialog(
-            title:const  Text("Custom Date Range",
+            title: const Text("Custom Date Range",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             actions: [
               Column(
                 children: [
                   //DATE
-                  Wrap(
-                    direction: MediaQuery.of(context).size.shortestSide > 600
-                        ? Axis.horizontal
-                        : Axis.vertical,
-                    children: [
-                      //START
-                      Column(
-                        children: [
-                          const  Text("From Date",
-                              textAlign: TextAlign.end,
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Row(children: [
-                              //MONTH
-                              SizedBox(
-                                  height: 50,
-                                  width: 80,
-                                  child: ListWheelScrollView.useDelegate(
-                                      itemExtent: 20,
-                                      squeeze: 1.2,
-                                      diameterRatio: 1,
-                                      controller: lmonthController,
-                                      onSelectedItemChanged: (value) {
+                  Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,children: [
+                    Wrap(
+                      direction: MediaQuery.of(context).size.shortestSide < 600
+                          ? Axis.horizontal
+                          : Axis.vertical,
+                      children: [
+                        //START
+                        Column(
+                          children: [
+                            const Text("From Date",
+                                textAlign: TextAlign.end,
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Row(children: [
+                                //MONTH
+                                SizedBox(
+                                    height: 50,
+                                    width: 80,
+                                    child: ListWheelScrollView.useDelegate(
+                                        itemExtent: 20,
+                                        squeeze: 1.2,
+                                        diameterRatio: 1,
+                                        controller: lmonthController,
+                                        onSelectedItemChanged: (value) {
+                                          var date = DateTime(year, value + 2, 0);
+                                          endDate = date.day.toInt();
+                                          setStateDialog(() {
+                                            selectedMonthIndex = value;
+                                            month = value + 1;
+                                            endDate;
+                                          });
+                                        },
+                                        childDelegate: selectedMonthIndex ==
+                                            monthList.length - 4
+                                            ? ListWheelChildLoopingListDelegate(
+                                            children: List<Widget>.generate(
+                                                monthList.length, (index) {
+                                              return Text(
+                                                monthList[index],
+                                                style: selectedMonthIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }))
+                                            : ListWheelChildListDelegate(
+                                            children: List<Widget>.generate(
+                                                monthList.length, (index) {
+                                              return Text(
+                                                monthList[index],
+                                                style: selectedMonthIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            })))),
 
-                                        var date = DateTime(year, value + 2, 0);
-                                        endDate = date.day.toInt();
-                                        setStateDialog(() {
-                                          selectedMonthIndex = value;
-                                          month = value + 1;
-                                          endDate;
-                                        });
-                                      },
-                                      childDelegate: selectedMonthIndex ==
-                                          monthList.length - 4
-                                          ? ListWheelChildLoopingListDelegate(
-                                          children: List<Widget>.generate(
-                                              monthList.length, (index) {
-                                            return Text(
-                                              monthList[index],
-                                              style: selectedMonthIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  : const TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          }))
-                                          : ListWheelChildListDelegate(
-                                          children: List<Widget>.generate(
-                                              monthList.length, (index) {
-                                            return Text(
-                                              monthList[index],
-                                              style: selectedMonthIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  : const TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          })))),
+                                const Text("/"),
+                                //DATE
+                                SizedBox(
+                                    height: 50,
+                                    width: 80,
+                                    child: ListWheelScrollView.useDelegate(
+                                        itemExtent: 20,
+                                        squeeze: 1.2,
+                                        diameterRatio: 1,
+                                        physics: const FixedExtentScrollPhysics(),
+                                        controller: ldateController,
+                                        onSelectedItemChanged: (value) {
+                                          setStateDialog(() {
+                                            selectedDateIndex = value;
+                                            day = value + 1;
+                                          });
+                                        },
+                                        childDelegate: selectedDateIndex ==
+                                            endDate - 4
+                                            ? ListWheelChildLoopingListDelegate(
+                                            children: List<Widget>.generate(
+                                                endDate, (index) {
+                                              return Text(
+                                                (index + 1).toString(),
+                                                style: selectedDateIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }))
+                                            : ListWheelChildListDelegate(
+                                            children: List<Widget>.generate(
+                                                endDate, (index) {
+                                              return Text(
+                                                (index + 1).toString(),
+                                                style: selectedDateIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            })))),
+                                const Text("/"),
+                                //YEAR
+                                SizedBox(
+                                    height: 50,
+                                    width: 80,
+                                    child: ListWheelScrollView.useDelegate(
+                                        itemExtent: 20,
+                                        squeeze: 1.2,
+                                        diameterRatio: 1,
+                                        physics: const FixedExtentScrollPhysics(),
+                                        controller: lyearController,
+                                        onSelectedItemChanged: (value) {
+                                          var date = DateTime(
+                                              widget.initialStartYear + value,
+                                              month + 1,
+                                              0);
+                                          endDate = date.day.toInt();
 
-                              const  Text("/"),
-                              //DATE
-                              SizedBox(
-                                  height: 50,
-                                  width: 80,
-                                  child: ListWheelScrollView.useDelegate(
-                                      itemExtent: 20,
-                                      squeeze: 1.2,
-                                      diameterRatio: 1,
-                                      physics: const FixedExtentScrollPhysics(),
-                                      controller: ldateController,
-                                      onSelectedItemChanged: (value) {
+                                          setStateDialog(() {
+                                            selectedYearIndex = value;
+                                            year =
+                                                widget.initialStartYear + value;
+                                            endDate;
+                                          });
+                                        },
+                                        childDelegate: selectedYearIndex ==
+                                            yearLen - 4
+                                            ? ListWheelChildLoopingListDelegate(
+                                            children: List<Widget>.generate(
+                                                yearLen, (index) {
+                                              return Text(
+                                                ((widget.initialStartYear) +
+                                                    index)
+                                                    .toString(),
+                                                style: selectedYearIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }))
+                                            : ListWheelChildListDelegate(
+                                            children: List<Widget>.generate(
+                                                yearLen, (index) {
+                                              return Text(
+                                                ((widget.initialStartYear) +
+                                                    index)
+                                                    .toString(),
+                                                style: selectedYearIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            })))),
+                              ]),
+                            ),
+                          ],
+                        ),
 
-                                        setStateDialog(() {
-                                          selectedDateIndex = value;
-                                          day = value + 1;
-                                        });
-                                      },
-                                      childDelegate: selectedDateIndex ==
-                                          endDate - 4
-                                          ? ListWheelChildLoopingListDelegate(
-                                          children: List<Widget>.generate(
-                                              endDate, (index) {
-                                            return Text(
-                                              (index + 1).toString(),
-                                              style: selectedDateIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  : const TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          }))
-                                          : ListWheelChildListDelegate(
-                                          children: List<Widget>.generate(
-                                              endDate, (index) {
-                                            return Text(
-                                              (index + 1).toString(),
-                                              style: selectedDateIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  :const  TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          })))),
-                              const   Text("/"),
-                              //YEAR
-                              SizedBox(
-                                  height: 50,
-                                  width: 80,
-                                  child: ListWheelScrollView.useDelegate(
-                                      itemExtent: 20,
-                                      squeeze: 1.2,
-                                      diameterRatio: 1,
-                                      physics: const FixedExtentScrollPhysics(),
-                                      controller: lyearController,
-                                      onSelectedItemChanged: (value) {
+                        //END
+                        Column(
+                          children: [
+                            const Text("To Date",
+                                textAlign: TextAlign.end,
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Row(children: [
+                                //MONTH
+                                SizedBox(
+                                    height: 50,
+                                    width: 80,
+                                    child: ListWheelScrollView.useDelegate(
+                                        itemExtent: 20,
+                                        squeeze: 1.2,
+                                        diameterRatio: 1,
+                                        controller: smonthController,
+                                        onSelectedItemChanged: (value) {
+                                          var date =
+                                          DateTime(syear, value + 2, 0);
+                                          sendDate = date.day.toInt();
 
-                                        var date = DateTime(
-                                            widget.initialStartYear + value,
-                                            month + 1,
-                                            0);
-                                        endDate = date.day.toInt();
+                                          setStateDialog(() {
+                                            selectedSMonthIndex = value;
+                                            smonth = value + 1;
+                                            sendDate;
+                                          });
+                                        },
+                                        childDelegate: selectedSMonthIndex ==
+                                            monthList.length - 4
+                                            ? ListWheelChildLoopingListDelegate(
+                                            children: List<Widget>.generate(
+                                                monthList.length, (index) {
+                                              return Text(
+                                                monthList[index],
+                                                style: selectedSMonthIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }))
+                                            : ListWheelChildListDelegate(
+                                            children: List<Widget>.generate(
+                                                monthList.length, (index) {
+                                              return Text(
+                                                monthList[index],
+                                                style: selectedSMonthIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            })))),
 
-                                        setStateDialog(() {
-                                          selectedYearIndex = value;
-                                          year =
-                                              widget.initialStartYear + value;
-                                          endDate;
-                                        });
-                                      },
-                                      childDelegate: selectedYearIndex ==
-                                          yearLen - 4
-                                          ? ListWheelChildLoopingListDelegate(
-                                          children: List<Widget>.generate(
-                                              yearLen, (index) {
-                                            return Text(
-                                              ((widget.initialStartYear) +
-                                                  index)
-                                                  .toString(),
-                                              style: selectedYearIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  :const  TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          }))
-                                          : ListWheelChildListDelegate(
-                                          children: List<Widget>.generate(
-                                              yearLen, (index) {
-                                            return Text(
-                                              ((widget.initialStartYear) +
-                                                  index)
-                                                  .toString(),
-                                              style: selectedYearIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  : TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          })))),
-                            ]),
-                          ),
-                        ],
-                      ),
-                      const  Text("-"),
-                      //END
-                      Column(
-                        children: [
-                          const  Text("To Date",
-                              textAlign: TextAlign.end,
-                              style:  TextStyle(fontWeight: FontWeight.bold)),
-                          Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Row(children: [
-                              //MONTH
-                              SizedBox(
-                                  height: 50,
-                                  width: 80,
-                                  child: ListWheelScrollView.useDelegate(
-                                      itemExtent: 20,
-                                      squeeze: 1.2,
-                                      diameterRatio: 1,
-                                      controller: smonthController,
-                                      onSelectedItemChanged: (value) {
+                                const Text("/"),
+                                //DATE
+                                SizedBox(
+                                    height: 50,
+                                    width: 80,
+                                    child: ListWheelScrollView.useDelegate(
+                                        itemExtent: 20,
+                                        squeeze: 1.2,
+                                        diameterRatio: 1,
+                                        physics: const FixedExtentScrollPhysics(),
+                                        controller: sdateController,
+                                        onSelectedItemChanged: (value) {
+                                          setStateDialog(() {
+                                            selectedSDateIndex = value;
+                                            sday = value + 1;
+                                          });
+                                        },
+                                        childDelegate: selectedSDateIndex ==
+                                            sendDate - 4
+                                            ? ListWheelChildLoopingListDelegate(
+                                            children: List<Widget>.generate(
+                                                sendDate, (index) {
+                                              return Text(
+                                                (index + 1).toString(),
+                                                style: selectedSDateIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }))
+                                            : ListWheelChildListDelegate(
+                                            children: List<Widget>.generate(
+                                                sendDate, (index) {
+                                              return Text(
+                                                (index + 1).toString(),
+                                                style: selectedSDateIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            })))),
+                                const Text("/"),
+                                //YEAR
+                                SizedBox(
+                                    height: 50,
+                                    width: 80,
+                                    child: ListWheelScrollView.useDelegate(
+                                        itemExtent: 20,
+                                        squeeze: 1.2,
+                                        diameterRatio: 1,
+                                        physics: const FixedExtentScrollPhysics(),
+                                        controller: syearController,
+                                        onSelectedItemChanged: (value) {
+                                          var date = DateTime(
+                                              widget.initialStartYear + value,
+                                              smonth + 1,
+                                              0);
+                                          sendDate = date.day.toInt();
 
-                                        var date =
-                                        DateTime(syear, value + 2, 0);
-                                        sendDate = date.day.toInt();
-
-                                        setStateDialog(() {
-                                          selectedSMonthIndex = value;
-                                          smonth = value + 1;
-                                          sendDate;
-                                        });
-                                      },
-                                      childDelegate: selectedSMonthIndex ==
-                                          monthList.length - 4
-                                          ? ListWheelChildLoopingListDelegate(
-                                          children: List<Widget>.generate(
-                                              monthList.length, (index) {
-                                            return Text(
-                                              monthList[index],
-                                              style: selectedSMonthIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  : TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          }))
-                                          : ListWheelChildListDelegate(
-                                          children: List<Widget>.generate(
-                                              monthList.length, (index) {
-                                            return Text(
-                                              monthList[index],
-                                              style: selectedSMonthIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  : TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          })))),
-
-                              const  Text("/"),
-                              //DATE
-                              SizedBox(
-                                  height: 50,
-                                  width: 80,
-                                  child: ListWheelScrollView.useDelegate(
-                                      itemExtent: 20,
-                                      squeeze: 1.2,
-                                      diameterRatio: 1,
-                                      physics: const FixedExtentScrollPhysics(),
-                                      controller: sdateController,
-                                      onSelectedItemChanged: (value) {
-
-                                        setStateDialog(() {
-                                          selectedSDateIndex = value;
-                                          sday = value + 1;
-                                        });
-                                      },
-                                      childDelegate: selectedSDateIndex ==
-                                          sendDate - 4
-                                          ? ListWheelChildLoopingListDelegate(
-                                          children: List<Widget>.generate(
-                                              sendDate, (index) {
-                                            return Text(
-                                              (index + 1).toString(),
-                                              style: selectedSDateIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  :const  TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          }))
-                                          : ListWheelChildListDelegate(
-                                          children: List<Widget>.generate(
-                                              sendDate, (index) {
-                                            return Text(
-                                              (index + 1).toString(),
-                                              style: selectedSDateIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  :const  TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          })))),
-                              const    Text("/"),
-                              //YEAR
-                              SizedBox(
-                                  height: 50,
-                                  width: 80,
-                                  child: ListWheelScrollView.useDelegate(
-                                      itemExtent: 20,
-                                      squeeze: 1.2,
-                                      diameterRatio: 1,
-                                      physics: const FixedExtentScrollPhysics(),
-                                      controller: syearController,
-                                      onSelectedItemChanged: (value) {
-
-                                        var date = DateTime(
-                                            widget.initialStartYear + value,
-                                            smonth + 1,
-                                            0);
-                                        sendDate = date.day.toInt();
-
-                                        setStateDialog(() {
-                                          selectedSYearIndex = value;
-                                          syear =
-                                              widget.initialStartYear + value;
-                                          sendDate;
-                                        });
-                                      },
-                                      childDelegate: selectedSYearIndex ==
-                                          yearLen - 4
-                                          ? ListWheelChildLoopingListDelegate(
-                                          children: List<Widget>.generate(
-                                              yearLen, (index) {
-                                            return Text(
-                                              ((widget.initialStartYear) +
-                                                  index)
-                                                  .toString(),
-                                              style: selectedSYearIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  : const TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          }))
-                                          : ListWheelChildListDelegate(
-                                          children: List<Widget>.generate(
-                                              yearLen, (index) {
-                                            return Text(
-                                              ((widget.initialStartYear) +
-                                                  index)
-                                                  .toString(),
-                                              style: selectedSYearIndex ==
-                                                  index
-                                                  ? TextStyle(
-                                                color: widget.color,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                              )
-                                                  : const TextStyle(
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.center,
-                                            );
-                                          })))),
-                            ]),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                                          setStateDialog(() {
+                                            selectedSYearIndex = value;
+                                            syear =
+                                                widget.initialStartYear + value;
+                                            sendDate;
+                                          });
+                                        },
+                                        childDelegate: selectedSYearIndex ==
+                                            yearLen - 4
+                                            ? ListWheelChildLoopingListDelegate(
+                                            children: List<Widget>.generate(
+                                                yearLen, (index) {
+                                              return Text(
+                                                ((widget.initialStartYear) +
+                                                    index)
+                                                    .toString(),
+                                                style: selectedSYearIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }))
+                                            : ListWheelChildListDelegate(
+                                            children: List<Widget>.generate(
+                                                yearLen, (index) {
+                                              return Text(
+                                                ((widget.initialStartYear) +
+                                                    index)
+                                                    .toString(),
+                                                style: selectedSYearIndex ==
+                                                    index
+                                                    ? TextStyle(
+                                                  color: widget.color,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                )
+                                                    : const TextStyle(
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            })))),
+                              ]),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ],),
                   // CANCEL OK
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -555,7 +549,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                               pickEditor = true;
                             });
                           },
-                          icon:const  Icon(
+                          icon: const Icon(
                             Icons.edit_calendar_rounded,
                           )),
 
@@ -569,21 +563,20 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                       color: widget.color,
                                       fontWeight: FontWeight.w700))),
                           Padding(
-                              padding:const  EdgeInsets.fromLTRB(15, 0, 15, 0),
+                              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                               child: TextButton(
                                 onPressed: () {
                                   //fromDate
                                   DateTime ltime = DateFormat("dd MMM yyyy")
                                       .parse(
-                                      "$day ${monthList[month - 1]} $year");
+                                          "$day ${monthList[month - 1]} $year");
                                   String Lformat =
-                                  DateFormat("dd/MM/yyy").format(ltime);
+                                      DateFormat("dd/MM/yyy").format(ltime);
 
                                   DateTime stime = DateFormat("dd MMM yyyy").parse(
                                       "$sday ${monthList[smonth - 1]} $syear");
                                   String Sformat =
-                                  DateFormat("dd/MM/yyy").format(stime);
-
+                                      DateFormat("dd/MM/yyy").format(stime);
 
                                   if (year > syear) {
                                     toastMessage(
@@ -619,11 +612,10 @@ class _CustomSDRPState extends State<CustomSDRP> {
             style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           //EDITOR
-          Row(
+          Column(
             children: [
               //FROM DATE
-              Flexible(
-                child: TextField(
+              TextField(
                   textInputAction: TextInputAction.next,
                   //keyboardType: TextInputType.datetime,
                   controller: lDateController,
@@ -649,7 +641,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                         borderSide: BorderSide(color: widget.color),
                         borderRadius: BorderRadius.circular(8)),
                     errorBorder: OutlineInputBorder(
-                        borderSide:const  BorderSide(color: Colors.red),
+                        borderSide: const BorderSide(color: Colors.red),
                         borderRadius: BorderRadius.circular(8)),
                     enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.grey),
@@ -657,46 +649,45 @@ class _CustomSDRPState extends State<CustomSDRP> {
                     labelText: "From Date",
                   ),
                 ),
-              ),
+
               //TO DATE
-              Flexible(
-                  child: Padding(
-                    padding:const  EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    child: TextField(
-                      textInputAction: TextInputAction.next,
-                      //keyboardType: TextInputType.datetime,
-                      controller: sDateController,
-                      onChanged: (value) {
-                        if (mounted) {
-                          setState(() {
-                            if (value.isEmpty) {
-                              sDate = "To Date Can't be Empty";
-                              validatorSDate = false;
-                            } else {
-                              sDate = "";
-                              validatorSDate = true;
-                            }
-                          });
+             Padding(
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: TextField(
+                  textInputAction: TextInputAction.next,
+                  //keyboardType: TextInputType.datetime,
+                  controller: sDateController,
+                  onChanged: (value) {
+                    if (mounted) {
+                      setState(() {
+                        if (value.isEmpty) {
+                          sDate = "To Date Can't be Empty";
+                          validatorSDate = false;
+                        } else {
+                          sDate = "";
+                          validatorSDate = true;
                         }
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "30/12/2012",
-                        errorText: validatorSDate ? null : sDate,
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: widget.color),
-                            borderRadius: BorderRadius.circular(8)),
-                        errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.red),
-                            borderRadius: BorderRadius.circular(8)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide:const  BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8)),
-                        labelText: "To Date",
-                      ),
-                    ),
-                  )),
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "30/12/2012",
+                    errorText: validatorSDate ? null : sDate,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: widget.color),
+                        borderRadius: BorderRadius.circular(8)),
+                    errorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.circular(8)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8)),
+                    labelText: "To Date",
+                  ),
+                ),
+              ),
             ],
           ),
           // CANCEL OK
@@ -711,7 +702,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                           color: widget.color, fontWeight: FontWeight.w700))),
               //OK
               Padding(
-                  padding:const  EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                   child: TextButton(
                     onPressed: () {
                       if (validatorLDate && validatorSDate) {
@@ -731,7 +722,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                         DateTime sFormat = DateFormat("dd/mm/yyyy")
                             .parse(sDateController.text.trim().toString());
                         String sTime =
-                        DateFormat("dd MMM yyyy").format(sFormat);
+                            DateFormat("dd MMM yyyy").format(sFormat);
                         var sstr = sTime.split(" ");
                         for (int i = 0; i < monthList.length; i++) {
                           if (monthList[i].toString() == sstr[1]) {
@@ -746,8 +737,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                           if (year > syear) {
                             toastMessage(
                                 "End Year is not less than Start Year");
-                          }
-                          else{
+                          } else {
                             toastMessage(
                                 "End Year is not less than Start Year");
                           }
