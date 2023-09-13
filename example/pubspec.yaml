@@ -32,7 +32,7 @@ dependencies:
     sdk: flutter
   custom_scroll_date_range_picker:
     git:
-      url: https://github.com/postboxat18/custom_scroll_date_range_picker
+      url: https://github.com/postboxat18/custom_scroll_date_range_picker.git
   intl: ^0.18.1
 
 
