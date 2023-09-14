@@ -3,6 +3,7 @@ library custom_scroll_date_range_picker;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomSDRP extends StatefulWidget {
   final DateTime initialStartDate;
@@ -662,6 +663,14 @@ class _CustomSDRPState extends State<CustomSDRP> {
             children: [
               //FROM DATE
               TextField(
+                inputFormatters: [
+                  MaskTextInputFormatter(
+                    mask: '##/##/####',
+                    filter: {
+                      "#": RegExp(r'\d+|-|/'),
+                    },
+                  )
+                ],
                 textInputAction: TextInputAction.next,
                 //keyboardType: TextInputType.datetime,
                 controller: lDateController,
@@ -700,6 +709,14 @@ class _CustomSDRPState extends State<CustomSDRP> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: TextField(
+                  inputFormatters: [
+                    MaskTextInputFormatter(
+                      mask: '##/##/####',
+                      filter: {
+                        "#": RegExp(r'\d+|-|/'),
+                      },
+                    )
+                  ],
                   textInputAction: TextInputAction.next,
                   //keyboardType: TextInputType.datetime,
                   controller: sDateController,
