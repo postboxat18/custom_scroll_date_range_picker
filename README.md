@@ -13,3 +13,6 @@ https://github.com/postboxat18/custom_scroll_date_range_picker/assets/77087523/5
 
 ## License
 This package is open-source and available under the [MIT License](LICENSE).
+
+Here's the pub dev.
+https://pub.dev/packages/custom_scroll_date_range_picker
