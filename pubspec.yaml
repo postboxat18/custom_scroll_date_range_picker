@@ -8,6 +8,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  date_format_field: ^0.0.5
   flutter:
     sdk: flutter
   fluttertoast: ^8.2.2

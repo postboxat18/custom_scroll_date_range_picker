@@ -1,6 +1,7 @@
 import 'package:custom_scroll_date_range_picker/custom_scroll_date_range_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:date_format_field/date_format_field.dart';
 
 void main() {
   runApp(const MyApp());
@@ -67,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           initialEndDate: initialEndDate,
                           initialEndYear: 2050,
                           initialStartYear: 2010,
-                          color: Colors.deepPurple,
+                          color: Colors.blue,
                         );
                       },
                     ).then((value) {
