@@ -54,18 +54,18 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "687ebea7c9fb77b6cf5ddd61c3b3f92f055fb461"
+      resolved-ref: "762b8a86bf5515c7a546470ce0581fcc5ac6f1b7"
       url: "https://github.com/postboxat18/custom_scroll_date_range_picker.git"
     source: git
     version: "1.0.5"
   date_format_field:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: date_format_field
-      sha256: "08b4c8a71b330a9f00b12607f629b4d41e18c87faeafacffef334ca4ff27fb1f"
+      sha256: d07a428bd253454ff3123f2e57511cf6ec101d1135af3b79cebb40e1bee8bab8
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.5"
+    version: "0.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -109,10 +109,10 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.19.0"
   leak_tracker:
     dependency: transitive
     description:
