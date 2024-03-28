@@ -1,9 +1,5 @@
 library custom_scroll_date_range_picker;
 
-import 'package:date_format_field/date_format_field.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
