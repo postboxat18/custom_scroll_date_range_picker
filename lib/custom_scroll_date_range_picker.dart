@@ -4,14 +4,16 @@ import 'package:date_format_field/date_format_field.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class CustomSDRP extends StatefulWidget {
   DateTime initialStartDate;
   DateTime initialEndDate;
   int initialStartYear;
   int initialEndYear;
-  Color color;
+  Color primaryColor;
 
   CustomSDRP(
       {super.key,
@@ -19,7 +21,7 @@ class CustomSDRP extends StatefulWidget {
         required this.initialEndDate,
         required this.initialStartYear,
         required this.initialEndYear,
-        required this.color});
+        required this.primaryColor});
 
   @override
   State<CustomSDRP> createState() => _CustomSDRPState();
@@ -79,16 +81,31 @@ class _CustomSDRPState extends State<CustomSDRP> {
   late int selectedSDateIndex = 0;
 
   //EDITOR
-  late TextEditingController lDateController = TextEditingController();
-  late TextEditingController sDateController = TextEditingController();
+  late TextEditingController fromDateController = TextEditingController();
+  late TextEditingController toDateController = TextEditingController();
+  late DateTime startDate;
+  late DateTime toDate;
+
   late bool validatorLDate = true;
   late String lDate = "Value Can't be Empty";
   late String sDate = "Value Can't be Empty";
   late bool validatorSDate = true;
   late bool pickEditor = false;
+  late double height;
+  late double width;
+  late double paddingHeight;
+  late double paddingWidth;
+  late bool isTab;
+  late DateTime now = DateTime.now();
 
   @override
   void initState() {
+    startDate = widget.initialStartDate;
+    toDate = widget.initialEndDate;
+    fromDateController.text =
+        DateFormat("dd/MM/yyyy").format(widget.initialStartDate);
+    toDateController.text =
+        DateFormat("dd/MM/yyyy").format(widget.initialEndDate);
     //YEAR LEN
     yearLen = (widget.initialEndYear - widget.initialStartYear) + 1;
 
@@ -127,6 +144,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    final data = MediaQueryData.fromView(WidgetsBinding.instance.window);
+    isTab = data.size.shortestSide < 600 ? false : true;
+    paddingWidth = isTab ? (width * 0.02) : (width * 0.03);
+    paddingHeight = (height * 0.15);
+
     lyearController =
         FixedExtentScrollController(initialItem: selectedYearIndex);
     lmonthController =
@@ -147,12 +171,12 @@ class _CustomSDRPState extends State<CustomSDRP> {
     return StatefulBuilder(
       builder: (context, setStateDialog) {
         if (pickEditor) {
-          return openEditor();
+          return openEditor(setStateDialog);
         } else {
           return AlertDialog(
             backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25)),
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
             title: const Text("Custom Date Range",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             actions: [
@@ -182,11 +206,11 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                   //MONTH
                                   SizedBox(
                                       height: 50,
-                                      width: 80,
+                                      width: width / 8,
                                       child: ListWheelScrollView.useDelegate(
                                           itemExtent: 20,
                                           squeeze: 1.2,
-                                          diameterRatio: 1,
+                                          diameterRatio: 0.8,
                                           controller: lmonthController,
                                           onSelectedItemChanged: (value) {
                                             var date =
@@ -210,13 +234,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                       style: selectedMonthIndex ==
                                                           index
                                                           ? TextStyle(
-                                                        color: widget.color,
+                                                        color: widget
+                                                            .primaryColor,
                                                         fontWeight:
                                                         FontWeight.w700,
                                                       )
                                                           : const TextStyle(
-                                                          color:
-                                                          Colors.grey),
+                                                          color: Colors.grey),
                                                       textAlign: TextAlign.center,
                                                     );
                                                   }))
@@ -230,13 +254,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                       style: selectedMonthIndex ==
                                                           index
                                                           ? TextStyle(
-                                                        color: widget.color,
+                                                        color: widget
+                                                            .primaryColor,
                                                         fontWeight:
                                                         FontWeight.w700,
                                                       )
                                                           : const TextStyle(
-                                                          color:
-                                                          Colors.grey),
+                                                          color: Colors.grey),
                                                       textAlign: TextAlign.center,
                                                     );
                                                   })))),
@@ -245,11 +269,11 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                   //DATE
                                   SizedBox(
                                       height: 50,
-                                      width: 80,
+                                      width: width / 8,
                                       child: ListWheelScrollView.useDelegate(
                                           itemExtent: 20,
                                           squeeze: 1.2,
-                                          diameterRatio: 1,
+                                          diameterRatio: 0.8,
                                           physics:
                                           const FixedExtentScrollPhysics(),
                                           controller: ldateController,
@@ -270,13 +294,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                   style: selectedDateIndex ==
                                                       index
                                                       ? TextStyle(
-                                                    color: widget.color,
+                                                    color: widget
+                                                        .primaryColor,
                                                     fontWeight:
                                                     FontWeight.w700,
                                                   )
                                                       : const TextStyle(
-                                                      color:
-                                                      Colors.grey),
+                                                      color: Colors.grey),
                                                   textAlign: TextAlign.center,
                                                 );
                                               }))
@@ -289,13 +313,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                   style: selectedDateIndex ==
                                                       index
                                                       ? TextStyle(
-                                                    color: widget.color,
+                                                    color: widget
+                                                        .primaryColor,
                                                     fontWeight:
                                                     FontWeight.w700,
                                                   )
                                                       : const TextStyle(
-                                                      color:
-                                                      Colors.grey),
+                                                      color: Colors.grey),
                                                   textAlign: TextAlign.center,
                                                 );
                                               })))),
@@ -303,11 +327,11 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                   //YEAR
                                   SizedBox(
                                       height: 50,
-                                      width: 80,
+                                      width: width / 8,
                                       child: ListWheelScrollView.useDelegate(
                                           itemExtent: 20,
                                           squeeze: 1.2,
-                                          diameterRatio: 1,
+                                          diameterRatio: 0.8,
                                           physics:
                                           const FixedExtentScrollPhysics(),
                                           controller: lyearController,
@@ -338,13 +362,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                   style: selectedYearIndex ==
                                                       index
                                                       ? TextStyle(
-                                                    color: widget.color,
+                                                    color: widget
+                                                        .primaryColor,
                                                     fontWeight:
                                                     FontWeight.w700,
                                                   )
                                                       : const TextStyle(
-                                                      color:
-                                                      Colors.grey),
+                                                      color: Colors.grey),
                                                   textAlign: TextAlign.center,
                                                 );
                                               }))
@@ -359,13 +383,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                   style: selectedYearIndex ==
                                                       index
                                                       ? TextStyle(
-                                                    color: widget.color,
+                                                    color: widget
+                                                        .primaryColor,
                                                     fontWeight:
                                                     FontWeight.w700,
                                                   )
-                                                      : TextStyle(
-                                                      color:
-                                                      Colors.grey),
+                                                      : const TextStyle(
+                                                      color: Colors.grey),
                                                   textAlign: TextAlign.center,
                                                 );
                                               })))),
@@ -387,11 +411,11 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                   //MONTH
                                   SizedBox(
                                       height: 50,
-                                      width: 80,
+                                      width: width / 8,
                                       child: ListWheelScrollView.useDelegate(
                                           itemExtent: 20,
                                           squeeze: 1.2,
-                                          diameterRatio: 1,
+                                          diameterRatio: 0.8,
                                           controller: smonthController,
                                           onSelectedItemChanged: (value) {
                                             var date =
@@ -418,12 +442,12 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                           index
                                                           ? TextStyle(
                                                         color: widget
-                                                            .color,
+                                                            .primaryColor,
                                                         fontWeight:
                                                         FontWeight
                                                             .w700,
                                                       )
-                                                          : TextStyle(
+                                                          : const TextStyle(
                                                           color: Colors
                                                               .grey),
                                                       textAlign: TextAlign.center,
@@ -441,12 +465,12 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                           index
                                                           ? TextStyle(
                                                         color: widget
-                                                            .color,
+                                                            .primaryColor,
                                                         fontWeight:
                                                         FontWeight
                                                             .w700,
                                                       )
-                                                          : TextStyle(
+                                                          : const TextStyle(
                                                           color: Colors
                                                               .grey),
                                                       textAlign: TextAlign.center,
@@ -457,11 +481,11 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                   //DATE
                                   SizedBox(
                                       height: 50,
-                                      width: 80,
+                                      width: width / 8,
                                       child: ListWheelScrollView.useDelegate(
                                           itemExtent: 20,
                                           squeeze: 1.2,
-                                          diameterRatio: 1,
+                                          diameterRatio: 0.8,
                                           physics:
                                           const FixedExtentScrollPhysics(),
                                           controller: sdateController,
@@ -482,13 +506,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                   style: selectedSDateIndex ==
                                                       index
                                                       ? TextStyle(
-                                                    color: widget.color,
+                                                    color: widget
+                                                        .primaryColor,
                                                     fontWeight:
                                                     FontWeight.w700,
                                                   )
                                                       : const TextStyle(
-                                                      color:
-                                                      Colors.grey),
+                                                      color: Colors.grey),
                                                   textAlign: TextAlign.center,
                                                 );
                                               }))
@@ -501,13 +525,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                   style: selectedSDateIndex ==
                                                       index
                                                       ? TextStyle(
-                                                    color: widget.color,
+                                                    color: widget
+                                                        .primaryColor,
                                                     fontWeight:
                                                     FontWeight.w700,
                                                   )
                                                       : const TextStyle(
-                                                      color:
-                                                      Colors.grey),
+                                                      color: Colors.grey),
                                                   textAlign: TextAlign.center,
                                                 );
                                               })))),
@@ -515,11 +539,11 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                   //YEAR
                                   SizedBox(
                                       height: 50,
-                                      width: 80,
+                                      width: width / 8,
                                       child: ListWheelScrollView.useDelegate(
                                           itemExtent: 20,
                                           squeeze: 1.2,
-                                          diameterRatio: 1,
+                                          diameterRatio: 0.8,
                                           physics:
                                           const FixedExtentScrollPhysics(),
                                           controller: syearController,
@@ -550,13 +574,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                   style: selectedSYearIndex ==
                                                       index
                                                       ? TextStyle(
-                                                    color: widget.color,
+                                                    color: widget
+                                                        .primaryColor,
                                                     fontWeight:
                                                     FontWeight.w700,
                                                   )
                                                       : const TextStyle(
-                                                      color:
-                                                      Colors.grey),
+                                                      color: Colors.grey),
                                                   textAlign: TextAlign.center,
                                                 );
                                               }))
@@ -571,13 +595,13 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                                   style: selectedSYearIndex ==
                                                       index
                                                       ? TextStyle(
-                                                    color: widget.color,
+                                                    color: widget
+                                                        .primaryColor,
                                                     fontWeight:
                                                     FontWeight.w700,
                                                   )
                                                       : const TextStyle(
-                                                      color:
-                                                      Colors.grey),
+                                                      color: Colors.grey),
                                                   textAlign: TextAlign.center,
                                                 );
                                               })))),
@@ -600,9 +624,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                               pickEditor = true;
                             });
                           },
-                          icon: const Icon(
-                             Icons.edit_outlined
-                          )),
+                          icon: const Icon(Icons.edit_outlined)),
 
                       //CANCEL OK
                       Row(
@@ -611,7 +633,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                               onPressed: () => Navigator.pop(context),
                               child: Text("Cancel",
                                   style: TextStyle(
-                                      color: widget.color,
+                                      color: widget.primaryColor,
                                       fontWeight: FontWeight.w700))),
                           Padding(
                               padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -641,7 +663,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                 },
                                 child: Text("OK",
                                     style: TextStyle(
-                                        color: widget.color,
+                                        color: widget.primaryColor,
                                         fontWeight: FontWeight.bold)),
                               ))
                         ],
@@ -657,10 +679,10 @@ class _CustomSDRPState extends State<CustomSDRP> {
     );
   }
 
-  Widget openEditor() {
+  Widget openEditor(StateSetter setStateDialog) {
     return AlertDialog(
         backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         title: const Text("Custom Date Range",
             style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
@@ -668,16 +690,41 @@ class _CustomSDRPState extends State<CustomSDRP> {
           Column(
             children: [
               //FROM DATE
-              DateFormatField(
-                type: DateFormatType.type2,
-                addCalendar: true,
+              TextField(
+                textInputAction: TextInputAction.next,
+                controller: fromDateController,
+                readOnly: true,
+                keyboardType: TextInputType.none,
+                cursorHeight: 0,
+                cursorWidth: 0,
+                onTap: () async {
+                  DateTime? picker2 = await showDatePicker(
+                    context: context,
+                    initialDate: startDate,
+                    firstDate: DateTime(now.year - 50),
+                    lastDate: toDate,
+                  );
+                  if (picker2 != null) {
+                    setStateDialog(() {
+                      startDate = picker2;
+                      toDate = picker2;
+                      fromDateController.text =
+                          DateFormat('dd/MM/yyyy').format(picker2);
+                      toDateController.text = "";
+                      validatorLDate = fromDateController.text.isNotEmpty;
+                    });
+                  }
+                },
                 decoration: InputDecoration(
                   filled: true,
-
-                  hintText: "dd/MM/yyyy",
+                  fillColor: Colors.white,
+                  suffixIcon: const Icon(
+                    Icons.calendar_month_outlined,
+                    color: Colors.grey,
+                  ),
                   errorText: validatorLDate ? null : lDate,
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: widget.color),
+                      borderSide: BorderSide(color: widget.primaryColor),
                       borderRadius: BorderRadius.circular(8)),
                   errorBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.red),
@@ -687,71 +734,43 @@ class _CustomSDRPState extends State<CustomSDRP> {
                       borderRadius: BorderRadius.circular(8)),
                   labelText: "From Date",
                 ),
-                onComplete: (date) {
-                  if (date != null) {
-                    lDateController.text =
-                        DateFormat("dd/MM/yyyy").format(date);
-                  }
-                },
               ),
-
-              Visibility(
-                visible: false,
+              //TO DATE
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: TextField(
-                  inputFormatters: [
-                    MaskTextInputFormatter(
-                      mask: '##/##/####',
-                      filter: {
-                        "#": RegExp(r'\d+|-|/'),
-                      },
-                    )
-                  ],
                   textInputAction: TextInputAction.next,
-                  //keyboardType: TextInputType.datetime,
-                  controller: lDateController,
-                  onChanged: (value) {
-                    if (mounted) {
-                      setState(() {
-                        if (value.isEmpty) {
-                          lDate = "From Date Can't be Empty";
-                          validatorLDate = false;
-                        } else {
-                          lDate = "";
-                          validatorLDate = true;
-                        }
+                  controller: toDateController,
+                  readOnly: true,
+                  keyboardType: TextInputType.none,
+                  cursorHeight: 0,
+                  cursorWidth: 0,
+                  onTap: () async {
+                    DateTime? picker2 = await showDatePicker(
+                      context: context,
+                      initialDate: toDate,
+                      firstDate: startDate,
+                      lastDate: DateTime(now.year + 50),
+                    );
+                    if (picker2 != null) {
+                      setStateDialog(() {
+                        toDate = picker2;
+                        toDateController.text =
+                            DateFormat('dd/MM/yyyy').format(picker2);
+                        validatorSDate = toDateController.text.isNotEmpty;
                       });
                     }
                   },
                   decoration: InputDecoration(
                     filled: true,
-
-                    hintText: "dd/MM/yyyy",
-                    errorText: validatorLDate ? null : lDate,
+                    fillColor: Colors.white,
+                    suffixIcon: const Icon(
+                      Icons.calendar_month_outlined,
+                      color: Colors.grey,
+                    ),
+                    errorText: validatorSDate ? null : lDate,
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: widget.color),
-                        borderRadius: BorderRadius.circular(8)),
-                    errorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(8)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8)),
-                    labelText: "From Date",
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child: DateFormatField(
-                  type: DateFormatType.type2,
-                  addCalendar: true,
-                  decoration: InputDecoration(
-                    filled: true,
-
-                    hintText: "dd/MM/yyyy",
-                    errorText: validatorSDate ? null : sDate,
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: widget.color),
+                        borderSide: BorderSide(color: widget.primaryColor),
                         borderRadius: BorderRadius.circular(8)),
                     errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.red),
@@ -760,62 +779,6 @@ class _CustomSDRPState extends State<CustomSDRP> {
                         borderSide: const BorderSide(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8)),
                     labelText: "To Date",
-                  ),
-                  onComplete: (date) {
-                    if (date != null) {
-                      sDateController.text =
-                          DateFormat("dd/MM/yyyy").format(date);
-                    }
-                  },
-                ),
-              ),
-
-              //TO DATE
-              Visibility(
-                visible: false,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                  child: TextField(
-                    inputFormatters: [
-                      MaskTextInputFormatter(
-                        mask: '##/##/####',
-                        filter: {
-                          "#": RegExp(r'\d+|-|/'),
-                        },
-                      )
-                    ],
-                    textInputAction: TextInputAction.next,
-                    //keyboardType: TextInputType.datetime,
-                    controller: sDateController,
-                    onChanged: (value) {
-                      if (mounted) {
-                        setState(() {
-                          if (value.isEmpty) {
-                            sDate = "To Date Can't be Empty";
-                            validatorSDate = false;
-                          } else {
-                            sDate = "";
-                            validatorSDate = true;
-                          }
-                        });
-                      }
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-
-                      hintText: "dd/MM/yyyy",
-                      errorText: validatorSDate ? null : sDate,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: widget.color),
-                          borderRadius: BorderRadius.circular(8)),
-                      errorBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.circular(8)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(8)),
-                      labelText: "To Date",
-                    ),
                   ),
                 ),
               ),
@@ -830,60 +793,29 @@ class _CustomSDRPState extends State<CustomSDRP> {
                   onPressed: () => Navigator.pop(context),
                   child: Text("Cancel",
                       style: TextStyle(
-                          color: widget.color, fontWeight: FontWeight.w700))),
+                          color: widget.primaryColor,
+                          fontWeight: FontWeight.w700))),
               //OK
               Padding(
                   padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                   child: TextButton(
                     onPressed: () {
+                      validatorLDate = fromDateController.text.isNotEmpty;
+                      validatorSDate = toDateController.text.isNotEmpty;
                       if (validatorLDate && validatorSDate) {
-                        DateTime lFormat = DateFormat("dd/mm/yyyy")
-                            .parse(lDateController.text.trim().toString());
-                        String lTime = DateFormat("dd MMM yyyy")
-                            .format(lFormat)
-                            .toString();
-                        var lstr = lTime.split(" ");
-                        for (int i = 0; i < monthList.length; i++) {
-                          if (monthList[i].toString() == lstr[1]) {
-                            month = i;
-                            break;
-                          }
-                        }
-                        year = int.parse(lstr[2]);
-                        DateTime sFormat = DateFormat("dd/mm/yyyy")
-                            .parse(sDateController.text.trim().toString());
-                        String sTime =
-                        DateFormat("dd MMM yyyy").format(sFormat);
-                        var sstr = sTime.split(" ");
-                        for (int i = 0; i < monthList.length; i++) {
-                          if (monthList[i].toString() == sstr[1]) {
-                            smonth = i;
-                            break;
-                          }
-                        }
-                        syear = int.parse(sstr[2]);
-
-                        if (widget.initialStartYear > year ||
-                            widget.initialEndYear < syear) {
-                          if (year > syear) {
-                            toastMessage(
-                                "End Year is not less than Start Year");
-                          } else {
-                            toastMessage(
-                                "End Year is not less than Start Year");
-                          }
-                        } else if (month > smonth && year == syear) {
-                          toastMessage(
-                              "End Month is not less than Start Month");
-                        } else {
-                          Navigator.pop(context,
-                              "${lDateController.text.trim()}-${sDateController.text.trim()}");
-                        }
+                        Navigator.pop(context,
+                            "${fromDateController.text.trim()}-${toDateController.text.trim()}");
+                      } else {
+                        setStateDialog(() {
+                          validatorLDate;
+                          validatorSDate;
+                        });
                       }
                     },
                     child: Text("OK",
                         style: TextStyle(
-                            color: widget.color, fontWeight: FontWeight.bold)),
+                            color: widget.primaryColor,
+                            fontWeight: FontWeight.bold)),
                   ))
             ],
           )
