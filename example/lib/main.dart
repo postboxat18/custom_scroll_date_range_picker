@@ -73,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     ).then((value) {
                       print("Value=>$value");
-
                       if (value != null) {
                         var arr = value.split("-");
                         fromDate = arr[0];
