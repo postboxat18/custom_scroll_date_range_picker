@@ -1,16 +1,16 @@
-library custom_scroll_date_range_picker;
+library;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class CustomSDRP extends StatefulWidget {
-  DateTime initialStartDate;
-  DateTime initialEndDate;
-  int initialStartYear;
-  int initialEndYear;
-  Color primaryColor;
+  final DateTime initialStartDate;
+  final DateTime initialEndDate;
+  final int initialStartYear;
+  final int initialEndYear;
+  final Color primaryColor;
 
-  CustomSDRP(
+  const CustomSDRP(
       {super.key,
         required this.initialStartDate,
         required this.initialEndDate,
@@ -141,7 +141,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    final data = MediaQueryData.fromView(WidgetsBinding.instance.window);
+    final data = MediaQueryData.fromView(WidgetsBinding.instance.platformDispatcher.views.single);
     isTab = data.size.shortestSide < 600 ? false : true;
     paddingWidth = isTab ? (width * 0.02) : (width * 0.03);
     paddingHeight = (height * 0.15);
