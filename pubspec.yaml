@@ -1,5 +1,5 @@
 name: custom_scroll_date_range_picker
-description: "This package is perfect for those who want to keep track of their tasks and deadlines in an organized, functional calendar view. Whether you’re managing personal tasks or working on a project, Flutter Material Calendar ensures that nothing falls through the cracks.This package allows you to pick 'from' and 'to' dates in a convenient scrollable interface. It supports day, month, and year-wise selection, making it a versatile tool for many applications.
+description: "This package allows you to pick 'from' and 'to' dates in a convenient scrollable interface. It supports day, month, and year-wise selection, making it a versatile tool for many applications.
   Key Features:
 - Flexible day, month, and year selection
 - Intuitive scroll-based picker"
