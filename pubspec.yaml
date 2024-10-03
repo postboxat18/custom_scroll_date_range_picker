@@ -1,6 +1,6 @@
 name: custom_scroll_date_range_picker
 description: "This package allows you to pick 'from' and 'to' dates in a convenient scrollable interface."
-version: 1.0.10
+version: 1.0.11
 homepage: https://github.com/postboxat18/custom_scroll_date_range_picker
 
 environment:

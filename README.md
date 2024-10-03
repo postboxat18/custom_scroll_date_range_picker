@@ -1,4 +1,3 @@
-Here's a **README** template for your GitHub repository for the **Custom Scroll Date Range Picker** package:
 
 ---
 
@@ -42,59 +41,6 @@ dependencies:
 ```
 
 Then, run `flutter pub get` to install the package.
-
----
-
-## Usage
-
-Import the package:
-
-```dart
-import 'package:custom_scroll_date_range_picker/custom_scroll_date_range_picker.dart';
-```
-
-Create the **Custom Scroll Date Range Picker** widget in your app:
-
-```dart
-CustomScrollDateRangePicker(
-  startDate: DateTime.now(),
-  endDate: DateTime.now().add(Duration(days: 30)),
-  onDateRangeSelected: (DateTime start, DateTime end) {
-    print('Selected range: $start to $end');
-  },
-);
-```
-
----
-
-## Example
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:custom_scroll_date_range_picker/custom_scroll_date_range_picker.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Custom Scroll Date Range Picker')),
-        body: Center(
-          child: CustomScrollDateRangePicker(
-            startDate: DateTime.now(),
-            endDate: DateTime.now().add(Duration(days: 30)),
-            onDateRangeSelected: (DateTime start, DateTime end) {
-              print('Selected range: $start to $end');
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-```
 
 ---
 
