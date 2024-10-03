@@ -49,24 +49,24 @@ class _CustomSDRPState extends State<CustomSDRP> {
 
   late int yearLen;
   late int month, year, day;
-  late int smonth, syear, sday;
+  late int sMonth, sYear, sDay;
   late String currentMonth, currentYear;
 
   late int startPosition = 0;
   late int endDate;
   late int sendDate;
 
-  late FixedExtentScrollController lyearController =
+  late FixedExtentScrollController lYearController =
   FixedExtentScrollController();
-  late FixedExtentScrollController lmonthController =
+  late FixedExtentScrollController lMonthController =
   FixedExtentScrollController();
-  late FixedExtentScrollController ldateController =
+  late FixedExtentScrollController lDateController =
   FixedExtentScrollController();
-  late FixedExtentScrollController syearController =
+  late FixedExtentScrollController sYearController =
   FixedExtentScrollController();
-  late FixedExtentScrollController smonthController =
+  late FixedExtentScrollController sMonthController =
   FixedExtentScrollController();
-  late FixedExtentScrollController sdateController =
+  late FixedExtentScrollController sDateController =
   FixedExtentScrollController();
   late int selectedYearIndex = 0;
   late int selectedMonthIndex = 0;
@@ -116,23 +116,23 @@ class _CustomSDRPState extends State<CustomSDRP> {
     selectedMonthIndex = month - 1;
     selectedDateIndex = day - 1;
 
-    smonth = widget.initialEndDate.month;
-    syear = widget.initialEndDate.year;
-    sday = widget.initialEndDate.day;
+    sMonth = widget.initialEndDate.month;
+    sYear = widget.initialEndDate.year;
+    sDay = widget.initialEndDate.day;
 
     for (int i = 0; i < yearLen; i++) {
-      if ((widget.initialStartYear + i) == syear) {
+      if ((widget.initialStartYear + i) == sYear) {
         selectedSYearIndex = i;
         break;
       }
     }
 
-    selectedSMonthIndex = smonth - 1;
-    selectedSDateIndex = sday - 1;
+    selectedSMonthIndex = sMonth - 1;
+    selectedSDateIndex = sDay - 1;
     var date = DateTime(year, month + 1, 0);
     endDate = date.day.toInt();
-    var sdate = DateTime(syear, month + 1, 0);
-    sendDate = sdate.day.toInt();
+    var sDates = DateTime(sYear, month + 1, 0);
+    sendDate = sDates.day.toInt();
 
     super.initState();
   }
@@ -146,17 +146,17 @@ class _CustomSDRPState extends State<CustomSDRP> {
     paddingWidth = isTab ? (width * 0.02) : (width * 0.03);
     paddingHeight = (height * 0.15);
 
-    lyearController =
+    lYearController =
         FixedExtentScrollController(initialItem: selectedYearIndex);
-    lmonthController =
+    lMonthController =
         FixedExtentScrollController(initialItem: selectedMonthIndex);
-    ldateController =
+    lDateController =
         FixedExtentScrollController(initialItem: selectedDateIndex);
-    syearController =
+    sYearController =
         FixedExtentScrollController(initialItem: selectedSYearIndex);
-    smonthController =
+    sMonthController =
         FixedExtentScrollController(initialItem: selectedSMonthIndex);
-    sdateController =
+    sDateController =
         FixedExtentScrollController(initialItem: selectedSDateIndex);
     //return Container(child:openDialog());
     return openDialog();
@@ -203,7 +203,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                           itemExtent: 20,
                                           squeeze: 1.2,
                                           diameterRatio: 0.8,
-                                          controller: lmonthController,
+                                          controller: lMonthController,
                                           onSelectedItemChanged: (value) {
                                             var date =
                                             DateTime(year, value + 2, 0);
@@ -276,7 +276,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                           diameterRatio: 0.8,
                                           physics:
                                           const FixedExtentScrollPhysics(),
-                                          controller: ldateController,
+                                          controller: lDateController,
                                           onSelectedItemChanged: (value) {
                                             setStateDialog(() {
                                               selectedDateIndex = value;
@@ -342,7 +342,7 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                           diameterRatio: 0.8,
                                           physics:
                                           const FixedExtentScrollPhysics(),
-                                          controller: lyearController,
+                                          controller: lYearController,
                                           onSelectedItemChanged: (value) {
                                             var date = DateTime(
                                                 widget.initialStartYear +
@@ -435,15 +435,15 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                           itemExtent: 20,
                                           squeeze: 1.2,
                                           diameterRatio: 0.8,
-                                          controller: smonthController,
+                                          controller: sMonthController,
                                           onSelectedItemChanged: (value) {
                                             var date =
-                                            DateTime(syear, value + 2, 0);
+                                            DateTime(sYear, value + 2, 0);
                                             sendDate = date.day.toInt();
 
                                             setStateDialog(() {
                                               selectedSMonthIndex = value;
-                                              smonth = value + 1;
+                                              sMonth = value + 1;
                                               sendDate;
                                             });
                                           },
@@ -509,11 +509,11 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                           diameterRatio: 0.8,
                                           physics:
                                           const FixedExtentScrollPhysics(),
-                                          controller: sdateController,
+                                          controller: sDateController,
                                           onSelectedItemChanged: (value) {
                                             setStateDialog(() {
                                               selectedSDateIndex = value;
-                                              sday = value + 1;
+                                              sDay = value + 1;
                                             });
                                           },
                                           childDelegate: selectedSDateIndex ==
@@ -575,18 +575,18 @@ class _CustomSDRPState extends State<CustomSDRP> {
                                           diameterRatio: 0.8,
                                           physics:
                                           const FixedExtentScrollPhysics(),
-                                          controller: syearController,
+                                          controller: sYearController,
                                           onSelectedItemChanged: (value) {
                                             var date = DateTime(
                                                 widget.initialStartYear +
                                                     value,
-                                                smonth + 1,
+                                                sMonth + 1,
                                                 0);
                                             sendDate = date.day.toInt();
 
                                             setStateDialog(() {
                                               selectedSYearIndex = value;
-                                              syear =
+                                              sYear =
                                                   widget.initialStartYear +
                                                       value;
                                               sendDate;
@@ -678,28 +678,28 @@ class _CustomSDRPState extends State<CustomSDRP> {
                               child: TextButton(
                                 onPressed: () {
                                   //fromDate
-                                  DateTime ltime = DateFormat("dd MMM yyyy")
+                                  DateTime lTime = DateFormat("dd MMM yyyy")
                                       .parse(
                                       "$day ${monthList[month - 1]} $year");
-                                  String Lformat =
-                                  DateFormat("dd/MM/yyy").format(ltime);
+                                  String lFormat =
+                                  DateFormat("dd/MM/yyy").format(lTime);
 
-                                  DateTime stime = DateFormat("dd MMM yyyy")
+                                  DateTime sTime = DateFormat("dd MMM yyyy")
                                       .parse(
-                                      "$sday ${monthList[smonth - 1]} $syear");
-                                  String Sformat =
-                                  DateFormat("dd/MM/yyy").format(stime);
+                                      "$sDay ${monthList[sMonth - 1]} $sYear");
+                                  String sFormat =
+                                  DateFormat("dd/MM/yyy").format(sTime);
 
-                                  if (year > syear) {
+                                  if (year > sYear) {
                                     toastMessage(
                                         "End Year is not less than Start Year");
-                                  } else if (month > smonth &&
-                                      year == syear) {
+                                  } else if (month > sMonth &&
+                                      year == sYear) {
                                     toastMessage(
                                         "End Month is not less than Start Month");
                                   } else {
                                     Navigator.pop(
-                                        context, "$Lformat-$Sformat");
+                                        context, "$lFormat-$sFormat");
                                   }
                                 },
                                 child: Text("OK",
